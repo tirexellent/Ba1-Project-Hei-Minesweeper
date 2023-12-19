@@ -5,4 +5,11 @@ object Minesweeper extends App {
     column
   }
 
+  def minesPos (emptyGrid : Array[Array[Int]]): Unit = {
+    var mineX: Double = math.random() * 10 / 10
+    var mineY : Double= math.random()*10/10
+    var Minepos : Array [Double] = (mineX,mineY)
+
+  }
+
 }
