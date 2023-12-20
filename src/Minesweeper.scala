@@ -32,7 +32,9 @@ object Minesweeper extends App {
     else{
       fullArea(x)(y).isMine = true
     }
+
   }
+
 
   for (row <- fullArea) {
     for (cell <- row) {
