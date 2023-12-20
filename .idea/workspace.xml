@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="35aa35a9-db9f-49a2-8bda-26dc4f4f4bdd" name="Changes" comment="first commit&#10;+ emptygrid for easy mode">
-      <change afterPath="$PROJECT_DIR$/src/RandomTests.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Minesweeper.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/Minesweeper.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/RandomTests.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/RandomTests.scala" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,6 +30,13 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="RunManager" selected="Application.RandomTests">
+    <configuration name="ArrayOfArraysExample" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="ArrayOfArraysExample" />
+      <module name="Minesweeper project BA1 hei" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Minesweeper" type="Application" factoryName="Application" temporary="true">
       <option name="MAIN_CLASS_NAME" value="Minesweeper" />
       <module name="Minesweeper project BA1 hei" />
@@ -47,6 +54,7 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.RandomTests" />
+        <item itemvalue="Application.ArrayOfArraysExample" />
         <item itemvalue="Application.Minesweeper" />
       </list>
     </recent_temporary>
@@ -67,7 +75,14 @@
       <option name="project" value="LOCAL" />
       <updated>1702990121048</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="first commit&#10;+ emptygrid for easy mode">
+      <created>1702991598432</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1702991598432</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
