@@ -1,5 +1,5 @@
 
-
+import scala.util.Random
 
 object RandomTests extends App {
   class Cell(val isMine: Boolean, val count: Int, var isVisible: Boolean) {
@@ -28,6 +28,15 @@ object RandomTests extends App {
     }
     println()
   }
+
+  // Create an instance of Random
+  val random = new Random()
+  val randomNumber = random.nextInt(9) + 1
+  // Generate a random integer between 1 and 9 (inclusive)
+
+
+  // Print the random number
+  println(s"Random Number: $randomNumber")
 }
 
 
