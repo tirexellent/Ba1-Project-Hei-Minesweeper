@@ -3,6 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="35aa35a9-db9f-49a2-8bda-26dc4f4f4bdd" name="Changes" comment="mines on same position not registered">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Minesweeper.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/Minesweeper.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/RandomTests.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/RandomTests.scala" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -108,7 +110,14 @@
       <option name="project" value="LOCAL" />
       <updated>1703094253035</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="mines on same position not registered">
+      <created>1703150475815</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1703150475815</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

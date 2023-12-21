@@ -1,7 +1,8 @@
-import scala.util.Random
+
 object Minesweeper extends App {
+  // Initialise class cell to get enough info in every cell
   class Cell(var isMine: Boolean, var count: Int, var isVisible: Boolean) {
-    override def toString: String = s"($isMine,$count,$isVisible) "
+    override def toString: String = s"($isMine, $count, $isVisible) "
   }
 
   def createArray(rows: Int, cols: Int): Array[Array[Cell]] = {
@@ -25,12 +26,24 @@ object Minesweeper extends App {
   for ( i: Int <- 0 until nbmines) {
     var x = (math.random() * 10).toInt
     var y = (math.random() * 10).toInt
+    fullArea(x)(y).isMine= true
     println(x, y)
-    if (fullArea(x)(y).isMine== true){
-      nbmines += 1
-    }
-    else{
-      fullArea(x)(y).isMine = true
+
+
+
+    for (nbminesx: Int <- -1 until   2){
+      if (0<=(x+nbminesx) && (x+nbminesx)<=9){
+        for (nbminesy: Int <- -1 until 2) {
+          if (0<=(y+nbminesy) && (y+nbminesy)<=9){
+            println(s"${x + nbminesx}, ${y + nbminesy}")
+            fullArea(x+nbminesx)(y+nbminesy).count += 1
+          }
+
+
+        }
+      }
+
+
     }
 
   }
@@ -42,5 +55,32 @@ object Minesweeper extends App {
     }
     println()
   }
+  for (row <- fullArea) {
+    for (cell <- row) {
+      print(s"(${cell.count}) ")
+    }
+    println()
+  }
+  var z : Boolean = true
+  while (z==true) {
+    println("Choose a cell to uncover x: ")
+    var uncovercellx = Input.readInt() - 1
+
+    println("Choose a cell to uncover y: ")
+    var uncovercelly = Input.readInt() - 1
+
+    fullArea(uncovercellx)(uncovercelly).isVisible = true
+
+    for (row <- fullArea) {
+      for (cell <- row) {
+        print(s"(${cell.isVisible}) ")
+
+      }
+      println()
+    }
+  }
+
+
+
 
 }
