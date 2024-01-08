@@ -62,8 +62,21 @@ object Minesweeper extends App {
     }
     println()
   }
+
   var z : Boolean = true
   while (z==true) {
+    for (row <- fullArea) {
+      for (cell <- row) {
+        if (cell.isVisible == false) {
+          print(s"\u25A0")
+        }
+        else {
+          print(s"${cell.count}")
+        }
+
+      }
+      println()
+    }
     println("Choose a cell to uncover x: ")
     var uncovercellx = Input.readInt() - 1
 
@@ -72,13 +85,8 @@ object Minesweeper extends App {
 
     fullArea(uncovercellx)(uncovercelly).isVisible = true
 
-    for (row <- fullArea) {
-      for (cell <- row) {
-        print(s"(${cell.isVisible}) ")
 
-      }
-      println()
-    }
+
   }
 
 
