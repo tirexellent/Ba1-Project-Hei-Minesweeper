@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="35aa35a9-db9f-49a2-8bda-26dc4f4f4bdd" name="Changes" comment="once board created, prints it masked + uncovers selected tile">
+    <list default="true" id="35aa35a9-db9f-49a2-8bda-26dc4f4f4bdd" name="Changes" comment="first turn (reveal all safe cases around)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Minesweeper.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/Minesweeper.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/RandomTests.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/RandomTests.scala" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,7 +29,7 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="RunManager" selected="Application.Minesweeper">
+  <component name="RunManager" selected="Application.RandomTests">
     <configuration name="ArrayOfArraysExample" type="Application" factoryName="Application" temporary="true">
       <option name="MAIN_CLASS_NAME" value="ArrayOfArraysExample" />
       <module name="Minesweeper project BA1 hei" />
@@ -52,8 +53,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Minesweeper" />
         <item itemvalue="Application.RandomTests" />
+        <item itemvalue="Application.Minesweeper" />
         <item itemvalue="Application.ArrayOfArraysExample" />
       </list>
     </recent_temporary>
@@ -144,7 +145,14 @@
       <option name="project" value="LOCAL" />
       <updated>1704708513487</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="place flags">
+      <created>1704722176182</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1704722176182</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -166,6 +174,7 @@
     <MESSAGE value="mines on same position not registered,&#10;count registered&#10;need to print only visible cells" />
     <MESSAGE value="right number of mines created" />
     <MESSAGE value="once board created, prints it masked + uncovers selected tile" />
-    <option name="LAST_COMMIT_MESSAGE" value="once board created, prints it masked + uncovers selected tile" />
+    <MESSAGE value="place flags" />
+    <option name="LAST_COMMIT_MESSAGE" value="place flags" />
   </component>
 </project>
