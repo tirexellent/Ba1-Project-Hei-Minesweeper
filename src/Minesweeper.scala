@@ -21,13 +21,19 @@ object Minesweeper extends App {
   val cols: Int = 10
   var nbmines : Int = 10
   var fullArea: Array[Array[Cell]] = createArray(rows, cols)
+  var i : Int = 0
 
   //place mines
-  for ( i: Int <- 0 until nbmines) {
+  while (i<nbmines) {
     var x = (math.random() * 10).toInt
     var y = (math.random() * 10).toInt
-    fullArea(x)(y).isMine= true
-    println(x, y)
+    if (fullArea(x)(y).isMine== false){
+      fullArea(x)(y).isMine = true
+      i += 1
+      println(x, y)
+    }
+
+
 
 
 
@@ -38,14 +44,9 @@ object Minesweeper extends App {
             println(s"${x + nbminesx}, ${y + nbminesy}")
             fullArea(x+nbminesx)(y+nbminesy).count += 1
           }
-
-
         }
       }
-
-
     }
-
   }
 
 
