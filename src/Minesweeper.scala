@@ -1,8 +1,8 @@
 
 object Minesweeper extends App {
   // Initialise class cell to get enough info in every cell
-  class Cell(var isMine: Boolean, var count: Int, var isVisible: Boolean) {
-    override def toString: String = s"($isMine, $count, $isVisible) "
+  class Cell(var isMine: Boolean, var count: Int, var isVisible: Boolean, var flag: Boolean) {
+    override def toString: String = s"($isMine, $count, $isVisible, $flag) "
   }
 
   def createArray(rows: Int, cols: Int): Array[Array[Cell]] = {
@@ -10,7 +10,7 @@ object Minesweeper extends App {
     var array = Array.ofDim[Cell](rows, cols)
     for (i <- 0 until rows) {
       for (j <- 0 until cols) {
-        array(i)(j) = new Cell(false, 0, false)
+        array(i)(j) = new Cell(false, 0, false,false)
 
       }
     }
@@ -67,29 +67,34 @@ object Minesweeper extends App {
   while (z==true) {
     for (row <- fullArea) {
       for (cell <- row) {
-        if (cell.isVisible == false) {
-          print(s"\u25A0")
+        if (cell.isVisible == true && cell.flag==true) {
+          print("\uF6A9")
         }
-        else {
+        else if (cell.isVisible == true){
           print(s"${cell.count}")
         }
+
+        print("\u25A0")
 
       }
       println()
     }
-    println("Choose a cell to uncover x: ")
+    println("Choose a cell x pos: ")
     var uncovercellx = Input.readInt() - 1
 
-    println("Choose a cell to uncover y: ")
+    println("Choose a cell y pos: ")
     var uncovercelly = Input.readInt() - 1
 
-    fullArea(uncovercellx)(uncovercelly).isVisible = true
-
+    println("reveal or put flag? r/f")
+    var flag: Char = Input.readChar()
+    if (flag == 'r') {
+      fullArea(uncovercellx)(uncovercelly).isVisible = true
+    }
+    else {
+      fullArea(uncovercellx)(uncovercelly).isVisible = true
+      fullArea(uncovercellx)(uncovercelly).flag = true
+    }
 
 
   }
-
-
-
-
 }
