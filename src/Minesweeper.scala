@@ -23,24 +23,21 @@ object Minesweeper extends App {
   var fullArea: Array[Array[Cell]] = createArray(rows, cols)
   var i : Int = 0
 
+
   //place mines
   while (i<nbmines) {
     var x = (math.random() * 10).toInt
     var y = (math.random() * 10).toInt
-    if (fullArea(x)(y).isMine== false){
+    if (!fullArea(x)(y).isMine){
       fullArea(x)(y).isMine = true
       i += 1
       println(x, y)
     }
 
-
-
-
-
     for (nbminesx: Int <- -1 until   2){
-      if (0<=(x+nbminesx) && (x+nbminesx)<=rows){
+      if (0<=(x+nbminesx) && (x+nbminesx)<=rows-1){
         for (nbminesy: Int <- -1 until 2) {
-          if (0<=(y+nbminesy) && (y+nbminesy)<=cols){
+          if (0<=(y+nbminesy) && (y+nbminesy)<=cols-1){
             println(s"${x + nbminesx}, ${y + nbminesy}")
             fullArea(x+nbminesx)(y+nbminesy).count += 1
           }
@@ -63,19 +60,25 @@ object Minesweeper extends App {
     println()
   }
 
+
+  def areaSafe (x: Int,y: Int): Unit = {
+
+
+  }
+
   var z : Boolean = true
   var nbturn : Int = 0
-  while (z==true) {
+  while (z) {
     for (row <- fullArea) {
       for (cell <- row) {
-        if (cell.isVisible == true && cell.flag==true) {
+        if (cell.isVisible && cell.flag) {
           print("\uF6A9")
         }
-        else if (cell.isVisible == true){
+        else if (!cell.isVisible) {
+          print("\u25A0")
+        } else {
           print(s"${cell.count}")
         }
-
-        print("\u25A0")
 
       }
       println()
@@ -86,10 +89,7 @@ object Minesweeper extends App {
     println("Choose a cell y pos: ")
     var uncovercelly = Input.readInt() - 1
 
-    if (nbturn ==0){
-      fullArea(uncovercellx)(uncovercelly).isVisible = true
-      var turn : Boolean = true
-
+    if (nbturn == 0){
     }
     println("reveal or put flag? r/f")
     var flag: Char = Input.readChar()
@@ -99,8 +99,8 @@ object Minesweeper extends App {
     else {
       fullArea(uncovercellx)(uncovercelly).isVisible = true
       fullArea(uncovercellx)(uncovercelly).flag = true
+
     }
-    nbturn += 1
 
 
   }
