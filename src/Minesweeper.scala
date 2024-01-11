@@ -1,11 +1,8 @@
 
 object Minesweeper extends App {
   // Initialise class cell to get enough info in every cell
-  class Cell(var isMine: Boolean, var count: Int, var isVisible: Boolean, var flag: Boolean) {
-    override def toString: String = s"($isMine, $count, $isVisible, $flag) "
-  }
-  class safeCells (var isSafe : Int){
-    override def toString: String = s"($isSafe) "
+  class Cell(var isMine: Boolean, var count: Int, var isVisible: Boolean,var isSafe : Int , var flag: Boolean) {
+    override def toString: String = s"($isMine, $count, $isVisible, $isSafe, $flag) "
   }
 
   def createArray(rows: Int, cols: Int): Array[Array[Cell]] = {
@@ -13,29 +10,35 @@ object Minesweeper extends App {
     var array = Array.ofDim[Cell](rows, cols)
     for (i <- 0 until rows) {
       for (j <- 0 until cols) {
-        array(i)(j) = new Cell(false, 0, false,false)
+        array(i)(j) = new Cell(false, 0, false,0,false)
 
       }
     }
     array
   }
 
-  def safeArray(rows: Int, cols: Int): Array[Array[safeCells]] = {
-    var array = Array.ofDim[safeCells](rows, cols)
-    for (i <- 0 until rows) {
-      for (j <- 0 until cols) {
-        array(i)(j) = new safeCells(0)
-
+  def safe (x: Int , y: Int) : Unit = {
+    var u: Boolean = true
+    var randomInt : Int = 1
+    while (u) {
+      var alldone : Int = 0
+      for (i<- -1 to 1){
+        if (fullArea(x+i)(y).isSafe == -1) {
+          fullArea(x+i)(y).isVisible = true
+        }
+        else if (fullArea(x+i)(y).isSafe == 0 ) {
+          fullArea(x+i)(y).isSafe = randomInt
+          fullArea(x+i)(y).isVisible = true
+        }
       }
-    }
-    array
-  }
 
+      randomInt += 1
+    }
+  }
   val rows: Int = 10
   val cols: Int = 10
   var nbmines : Int = 10
   var fullArea: Array[Array[Cell]] = createArray(rows, cols)
-  var safeSpace: Array[Array[safeCells]] = safeArray(rows, cols)
   var i : Int = 0
 
 
@@ -49,46 +52,24 @@ object Minesweeper extends App {
       println(x, y)
     }
 
-    for (nbminesx: Int <- -1 until   2){
-      if (0<=(x+nbminesx) && (x+nbminesx)<=rows-1){
-        for (nbminesy: Int <- -1 until 2) {
-          if (0<=(y+nbminesy) && (y+nbminesy)<=cols-1){
-            println(s"${x + nbminesx}, ${y + nbminesy}")
-            fullArea(x+nbminesx)(y+nbminesy).count += 1
+    for (posminesx: Int <- -1 until   2){
+      if (0<=(x+posminesx) && (x+posminesx)<=rows-1){
+        for (posminesy: Int <- -1 until 2) {
+          if (0<=(y+posminesy) && (y+posminesy)<=cols-1){
+
+            fullArea(x+posminesx)(y+posminesy).count += 1
           }
         }
       }
     }
   }
 
-
   for (row <- fullArea) {
     for (cell <- row) {
-      print(cell.toString)
+      if (cell.count != 0) cell.isSafe = -1
     }
-    println()
-  }
-  for (row <- fullArea) {
-    for (cell <- row) {
-      print(s"(${cell.count}) ")
-    }
-    println()
   }
 
-
-  def areaSafe (): Unit = {
-    for (row <- fullArea){
-      for (cell <- row){
-        if ( cell.count !=0){
-          safeSpace(row)(cell) = -1
-        }
-        else {
-          safeSpace(row)(cell) = 0
-        }
-      }
-    }
-
-  }
 
   var z : Boolean = true
   var nbturn : Int = 0
@@ -113,9 +94,10 @@ object Minesweeper extends App {
     println("Choose a cell y pos: ")
     var uncovercelly = Input.readInt() - 1
 
-    if (fullArea(uncovercellx)(uncovercellx)==0){
-      areaSafe()
+    if (fullArea(uncovercellx)(uncovercelly).isSafe == 0){
+      safe(uncovercellx,uncovercelly)
     }
+
     println("reveal or put flag? r/f")
     var flag: Char = Input.readChar()
     if (flag == 'r') {
