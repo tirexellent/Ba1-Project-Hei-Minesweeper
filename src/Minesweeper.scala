@@ -67,6 +67,7 @@ object Minesweeper extends App {
   for (row <- fullArea) {
     for (cell <- row) {
       if (cell.count != 0) cell.isSafe = -1
+      else {}
     }
   }
 
