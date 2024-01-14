@@ -1,3 +1,4 @@
+import Minesweeper.fullArea
 
 object Minesweeper extends App {
   // Initialise class cell to get enough info in every cell
@@ -18,40 +19,30 @@ object Minesweeper extends App {
   }
 
   def safe (x: Int , y: Int) : Unit = {
+    println("safe section")
     var u: Boolean = true
     var distFromCell : Int = 2
     while (u) {
-      var alldone : Int = 0
-
-      if (fullArea(x+i)(y).isSafe == -1 && x+i<=9 && 0<=x+i && fullArea(x+i)(y).isVisible == false) {
-        fullArea(x+i)(y).isVisible = true
+      println("safe boucle")
+      for (row <- fullArea) {
+        for (cell <- row) {
+          if (cell.isSafe != 0){
+            checkdirectsides()
+          }
+        }
       }
-      else if (fullArea(x+i)(y).isSafe == 0 && x+i<=9 && 0<=x+i) {
-        fullArea(x+i)(y).isSafe = distFromCell
-        fullArea(x+i)(y).isVisible = true
-        alldone+=1
-      }
-
-      else if (fullArea(x)(y+i).isSafe == -1 && y+i<=9 && 0<=y+i){
-        fullArea(x)(y+i).isVisible = true
-      }
-      else if (fullArea(x)(y+i).isSafe == 0 && y+i<=9 && 0<=y+i){
-        fullArea(x)(y+i).isSafe = distFromCell
-        fullArea(x)(y+i).isVisible = true
-        alldone+=1
-      }
-      else if (fullArea(x+i)(y).isSafe == distFromCell-1 && x+i<=9 && 0<=x+i) {
-        alldone += 1
-      }
-
-      else if (fullArea(x)(y+i).isSafe == distFromCell-1 && y+i<=9 && 0<=y+i) {
-        alldone += 1
-      }
-
-      if (alldone == 6){u=false}
-
       distFromCell += 1
+
+
+
     }
+    for (row <- fullArea) {
+      for (cell <- row) {
+        print(s"${cell.count}")
+      }
+      println()
+    }
+
   }
 
   def placeMines(): Unit ={
@@ -98,6 +89,22 @@ object Minesweeper extends App {
 
   var z : Boolean = true
   while (z) {
+    placeMines()
+    for (row <- fullArea) {
+      for (cell <- row) {
+        print(s"${cell.count}")
+      }
+      println()
+    }
+    println()
+    println()
+    for (row <- fullArea) {
+      for (cell <- row) {
+        print(s"${cell.isSafe}")
+      }
+      println()
+    }
+
     for (row <- fullArea) {
       for (cell <- row) {
         if (cell.isVisible && cell.flag) {
@@ -120,10 +127,12 @@ object Minesweeper extends App {
 
     if (fullArea(uncvrx)(uncvry).isSafe == 0){
       fullArea(uncvrx)(uncvry).isSafe = 1
+      println("yassss")
       safe(uncvrx,uncvry)
     }
     else {
       while (fullArea(uncvrx)(uncvry).isSafe != 0){
+        println("nooo")
         fullArea = createArray(rows, cols)
         placeMines()
       }
