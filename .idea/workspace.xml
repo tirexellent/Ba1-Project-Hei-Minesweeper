@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="35aa35a9-db9f-49a2-8bda-26dc4f4f4bdd" name="Changes" comment="added a var in cell" />
+    <list default="true" id="35aa35a9-db9f-49a2-8bda-26dc4f4f4bdd" name="Changes" comment="commit home computer">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Minesweeper project BA1 hei.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Minesweeper project BA1 hei.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Minesweeper.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/Minesweeper.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/RandomTests.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/RandomTests.scala" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -25,7 +30,7 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="RunManager" selected="Application.Minesweeper">
+  <component name="RunManager" selected="Application.RandomTests">
     <configuration name="ArrayOfArraysExample" type="Application" factoryName="Application" temporary="true">
       <option name="MAIN_CLASS_NAME" value="ArrayOfArraysExample" />
       <module name="Minesweeper project BA1 hei" />
@@ -56,9 +61,9 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.RandomTests" />
         <item itemvalue="Application.Minesweeper" />
         <item itemvalue="Application.DuplicateArrayExample" />
-        <item itemvalue="Application.RandomTests" />
         <item itemvalue="Application.ArrayOfArraysExample" />
       </list>
     </recent_temporary>
@@ -184,7 +189,14 @@
       <option name="project" value="LOCAL" />
       <updated>1704971852842</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="commit home computer">
+      <created>1705184859378</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1705184859378</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -210,6 +222,7 @@
     <MESSAGE value="not much, preparations for flood logic" />
     <MESSAGE value="small modifications, found way to flood (implement in areaSafe)" />
     <MESSAGE value="added a var in cell" />
-    <option name="LAST_COMMIT_MESSAGE" value="added a var in cell" />
+    <MESSAGE value="commit home computer" />
+    <option name="LAST_COMMIT_MESSAGE" value="commit home computer" />
   </component>
 </project>

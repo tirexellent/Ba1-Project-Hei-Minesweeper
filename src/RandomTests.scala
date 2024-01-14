@@ -2,41 +2,43 @@
 import scala.util.Random
 
 object RandomTests extends App {
-  class Cell(val isMine: Boolean, val count: Int, var isVisible: Boolean) {
-    override def toString: String = s"($isMine,$count,$isVisible)"
-  }
-  // Function to create a 2D array of cells
-  def createArray(rows: Int, cols: Int): Array[Array[Cell]] = {
-    val array = Array.ofDim[Cell](rows, cols)
-    for (i <- 0 until rows) {
-      for (j <- 0 until cols) {
-        array(i)(j) = new Cell(false, 0, false) // Initialize cells with default values
+    def checkDirectSides(array: Array[Array[Int]], row: Int, col: Int): Unit = {
+      val numRows = array.length
+      val numCols = array(0).length
+
+      // Check top
+      if (row > 0) {
+        println(s"Top: ${array(row - 1)(col)}")
+      }
+
+      // Check bottom
+      if (row < numRows - 1) {
+        println(s"Bottom: ${array(row + 1)(col)}")
+      }
+
+      // Check left
+      if (col > 0) {
+        println(s"Left: ${array(row)(col - 1)}")
+      }
+
+      // Check right
+      if (col < numCols - 1) {
+        println(s"Right: ${array(row)(col + 1)}")
       }
     }
-    array
-  }
 
-  // Creating a 3x3 array of cells
-  val rows = 9
-  val cols = 9
-  var arrayOfArrays: Array[Array[Cell]] = createArray(rows, cols)
+    // Example usage
+    val fullArea: Array[Array[Int]] = Array(
+      Array(1, 2, 3),
+      Array(4, 5, 6),
+      Array(7, 8, 9)
+    )
 
-  // Printing the array of arrays
-  for (row <- arrayOfArrays) {
-    for (cell <- row) {
-      print(cell + " ")
-    }
-    println()
-  }
-
-  // Create an instance of Random
-  val random = new Random()
-  val randomNumber = random.nextInt(9) + 1
-  // Generate a random integer between 1 and 9 (inclusive)
+    // Assuming you want to check the neighbors of the element at position (1, 1)
+    checkDirectSides(fullArea, 1, 1)
 
 
-  // Print the random number
-  println(s"Random Number: $randomNumber")
+
 }
 
 

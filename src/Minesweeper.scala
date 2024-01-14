@@ -19,22 +19,41 @@ object Minesweeper extends App {
 
   def safe (x: Int , y: Int) : Unit = {
     var u: Boolean = true
-    var randomInt : Int = 1
+    var distFromCell : Int = 2
     while (u) {
       var alldone : Int = 0
-      for (i<- -1 to 1){
-        if (fullArea(x+i)(y).isSafe == -1) {
-          fullArea(x+i)(y).isVisible = true
-        }
-        else if (fullArea(x+i)(y).isSafe == 0 ) {
-          fullArea(x+i)(y).isSafe = randomInt
-          fullArea(x+i)(y).isVisible = true
-        }
+
+      if (fullArea(x+i)(y).isSafe == -1 && x+i<=9 && 0<=x+i) {
+        fullArea(x+i)(y).isVisible = true
+      }
+      else if (fullArea(x+i)(y).isSafe == 0 && x+i<=9 && 0<=x+i) {
+        fullArea(x+i)(y).isSafe = distFromCell
+        fullArea(x+i)(y).isVisible = true
+        alldone+=1
+      }
+      else if (fullArea(x)(y+i).isSafe == -1 && y+i<=9 && 0<=y+i){
+        fullArea(x)(y+i).isVisible = true
+      }
+      else if (fullArea(x)(y+i).isSafe == 0 && y+i<=9 && 0<=y+i){
+        fullArea(x)(y+i).isSafe = distFromCell
+        fullArea(x)(y+i).isVisible = true
+        alldone+=1
+      }
+      else if (fullArea(x+i)(y).isSafe == distFromCell-1 && x+i<=9 && 0<=x+i) {
+        alldone += 1
+      }
+      else if (fullArea(x)(y+i).isSafe == distFromCell-1 && y+i<=9 && 0<=y+i) {
+        alldone += 1
       }
 
-      randomInt += 1
+      if (alldone == 6){u=false}
+
+      distFromCell += 1
     }
   }
+
+
+
   val rows: Int = 10
   val cols: Int = 10
   var nbmines : Int = 10
@@ -67,13 +86,12 @@ object Minesweeper extends App {
   for (row <- fullArea) {
     for (cell <- row) {
       if (cell.count != 0) cell.isSafe = -1
-      else {}
+      else {cell.isSafe = 0}
     }
   }
 
 
   var z : Boolean = true
-  var nbturn : Int = 0
   while (z) {
     for (row <- fullArea) {
       for (cell <- row) {
@@ -90,26 +108,32 @@ object Minesweeper extends App {
       println()
     }
     println("Choose a cell x pos: ")
-    var uncovercellx = Input.readInt() - 1
+    val uncvrx = Input.readInt() - 1
 
     println("Choose a cell y pos: ")
-    var uncovercelly = Input.readInt() - 1
+    val uncvry = Input.readInt() - 1
 
-    if (fullArea(uncovercellx)(uncovercelly).isSafe == 0){
-      safe(uncovercellx,uncovercelly)
+    if (fullArea(uncvrx)(uncvry).isSafe == 0){
+      fullArea(uncvrx)(uncvry).isSafe = 1
+      safe(uncvrx,uncvry)
+    }
+    else {
+      while (fullArea(uncvrx)(uncvry).isSafe != 0){
+        fullArea = createArray(rows, cols)
+      }
+      fullArea(uncvrx)(uncvry).isSafe = 1
+      safe(uncvrx,uncvry)
     }
 
     println("reveal or put flag? r/f")
     var flag: Char = Input.readChar()
     if (flag == 'r') {
-      fullArea(uncovercellx)(uncovercelly).isVisible = true
+
+      fullArea(uncvrx)(uncvry).isVisible = true
     }
     else {
-      fullArea(uncovercellx)(uncovercelly).isVisible = true
-      fullArea(uncovercellx)(uncovercelly).flag = true
-
+      fullArea(uncvrx)(uncvry).isVisible = true
+      fullArea(uncvrx)(uncvry).flag = true
     }
-
-
   }
 }
