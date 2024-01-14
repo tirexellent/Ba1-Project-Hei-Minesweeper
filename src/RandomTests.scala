@@ -7,7 +7,7 @@ object RandomTests extends App {
       val numCols = array(0).length
 
       // Check top
-      if (row > 0) {
+      if (row > 0 ) {
         println(s"Top: ${array(row - 1)(col)}")
       }
 

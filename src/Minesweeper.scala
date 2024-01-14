@@ -7,7 +7,7 @@ object Minesweeper extends App {
 
   def createArray(rows: Int, cols: Int): Array[Array[Cell]] = {
     // Initialize cells with default values
-    var array = Array.ofDim[Cell](rows, cols)
+    val array = Array.ofDim[Cell](rows, cols)
     for (i <- 0 until rows) {
       for (j <- 0 until cols) {
         array(i)(j) = new Cell(false, 0, false,0,false)
@@ -23,7 +23,7 @@ object Minesweeper extends App {
     while (u) {
       var alldone : Int = 0
 
-      if (fullArea(x+i)(y).isSafe == -1 && x+i<=9 && 0<=x+i) {
+      if (fullArea(x+i)(y).isSafe == -1 && x+i<=9 && 0<=x+i && fullArea(x+i)(y).isVisible == false) {
         fullArea(x+i)(y).isVisible = true
       }
       else if (fullArea(x+i)(y).isSafe == 0 && x+i<=9 && 0<=x+i) {
@@ -31,6 +31,7 @@ object Minesweeper extends App {
         fullArea(x+i)(y).isVisible = true
         alldone+=1
       }
+
       else if (fullArea(x)(y+i).isSafe == -1 && y+i<=9 && 0<=y+i){
         fullArea(x)(y+i).isVisible = true
       }
@@ -42,6 +43,7 @@ object Minesweeper extends App {
       else if (fullArea(x+i)(y).isSafe == distFromCell-1 && x+i<=9 && 0<=x+i) {
         alldone += 1
       }
+
       else if (fullArea(x)(y+i).isSafe == distFromCell-1 && y+i<=9 && 0<=y+i) {
         alldone += 1
       }
@@ -52,7 +54,36 @@ object Minesweeper extends App {
     }
   }
 
+  def placeMines(): Unit ={
+    while (i < nbmines) {
+      var x = (math.random() * 10).toInt
+      var y = (math.random() * 10).toInt
+      if (!fullArea(x)(y).isMine) {
+        fullArea(x)(y).isMine = true
+        i += 1
+        println(x, y)
+      }
 
+      for (posminesx: Int <- -1 until 2) {
+        if (0 <= (x + posminesx) && (x + posminesx) <= rows - 1) {
+          for (posminesy: Int <- -1 until 2) {
+            if (0 <= (y + posminesy) && (y + posminesy) <= cols - 1) {
+
+              fullArea(x + posminesx)(y + posminesy).count += 1
+            }
+          }
+        }
+      }
+    }
+    for (row <- fullArea) {
+      for (cell <- row) {
+        if (cell.count != 0) cell.isSafe = -1
+        else {
+          cell.isSafe = 0
+        }
+      }
+    }
+  }
 
   val rows: Int = 10
   val cols: Int = 10
@@ -61,34 +92,8 @@ object Minesweeper extends App {
   var i : Int = 0
 
 
-  //place mines
-  while (i<nbmines) {
-    var x = (math.random() * 10).toInt
-    var y = (math.random() * 10).toInt
-    if (!fullArea(x)(y).isMine){
-      fullArea(x)(y).isMine = true
-      i += 1
-      println(x, y)
-    }
 
-    for (posminesx: Int <- -1 until   2){
-      if (0<=(x+posminesx) && (x+posminesx)<=rows-1){
-        for (posminesy: Int <- -1 until 2) {
-          if (0<=(y+posminesy) && (y+posminesy)<=cols-1){
 
-            fullArea(x+posminesx)(y+posminesy).count += 1
-          }
-        }
-      }
-    }
-  }
-
-  for (row <- fullArea) {
-    for (cell <- row) {
-      if (cell.count != 0) cell.isSafe = -1
-      else {cell.isSafe = 0}
-    }
-  }
 
 
   var z : Boolean = true
@@ -120,6 +125,7 @@ object Minesweeper extends App {
     else {
       while (fullArea(uncvrx)(uncvry).isSafe != 0){
         fullArea = createArray(rows, cols)
+        placeMines()
       }
       fullArea(uncvrx)(uncvry).isSafe = 1
       safe(uncvrx,uncvry)
