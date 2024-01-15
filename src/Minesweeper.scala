@@ -1,4 +1,4 @@
-import Minesweeper.fullArea
+import Minesweeper.{fullArea, placeMines, rows}
 
 object Minesweeper extends App {
   // Initialise class cell to get enough info in every cell
@@ -8,59 +8,30 @@ object Minesweeper extends App {
 
   def createArray(rows: Int, cols: Int): Array[Array[Cell]] = {
     // Initialize cells with default values
-    val array = Array.ofDim[Cell](rows, cols)
+    var array = Array.ofDim[Cell](rows, cols)
     for (i <- 0 until rows) {
       for (j <- 0 until cols) {
         array(i)(j) = new Cell(false, 0, false,0,false)
-
       }
     }
     array
   }
 
-  def safe (x: Int , y: Int) : Unit = {
-    println("safe section")
-    var u: Boolean = true
-    var distFromCell : Int = 2
-    while (u) {
-      println("safe boucle")
-      for (row <- fullArea) {
-        for (cell <- row) {
-          if (cell.isSafe != 0){
-            checkdirectsides()
-          }
-        }
-      }
-      distFromCell += 1
-
-
-
-    }
-    for (row <- fullArea) {
-      for (cell <- row) {
-        print(s"${cell.count}")
-      }
-      println()
-    }
-
-  }
-
-  def placeMines(): Unit ={
+  def placeMines(): Unit = {
+    var i : Int = 0
     while (i < nbmines) {
       var x = (math.random() * 10).toInt
       var y = (math.random() * 10).toInt
       if (!fullArea(x)(y).isMine) {
         fullArea(x)(y).isMine = true
         i += 1
-        println(x, y)
-      }
+        for (posminesx: Int <- -1 to 1) {
+          if (0 <= (x + posminesx) && (x + posminesx) <= rows - 1) {
+            for (posminesy: Int <- -1 to 1) {
+              if (0 <= (y + posminesy) && (y + posminesy) <= cols - 1) {
 
-      for (posminesx: Int <- -1 until 2) {
-        if (0 <= (x + posminesx) && (x + posminesx) <= rows - 1) {
-          for (posminesy: Int <- -1 until 2) {
-            if (0 <= (y + posminesy) && (y + posminesy) <= cols - 1) {
-
-              fullArea(x + posminesx)(y + posminesy).count += 1
+                fullArea(x + posminesx)(y + posminesy).count += 1
+              }
             }
           }
         }
@@ -76,79 +47,120 @@ object Minesweeper extends App {
     }
   }
 
+  def safe(x: Int, y: Int, distFromCell: Int): Unit = {
+    for (row <- fullArea) {
+      for (cell <- row) {
+        if (cell.isSafe == distFromCell) {
+          for (offset <- -1 to 1 if offset != 0){
+            var newX = x + offset
+            var newY = y + offset
+            if (newX<=rows-1 && newX>=0 ){
+              fullArea(newX)(y).isVisible = true
+              if (fullArea(newX)(y).isSafe == 0){
+                fullArea(newX)(y).isSafe = distFromCell + 1
+                safe(newX,y, distFromCell)
+              }
+            }
+            if (newY<=cols-1 && newY>=0 ){
+              fullArea(x)(newY).isVisible = true
+              if (fullArea(x)(newY).isSafe == 0) {
+                fullArea(x)(newY).isSafe = distFromCell + 1
+                safe(x,newY,distFromCell)
+              }
+            }
+            if ((x-1)>= 0 && y-1 >=0){
+              fullArea(x-1)(y-1).isVisible = true
+              if (fullArea(x-1)(y-1).count == 0 && !fullArea(x-1)(y-1).isVisible){
+                safe(x-1,y-1,distFromCell)
+              }
+            }
+            if ((x-1) >= 0 && y+1 <= 9) {
+              fullArea(x-1)(y+1).isVisible = true
+              if (fullArea(x-1)(y+1).count == 0 && !fullArea(x-1)(y+1).isVisible) {
+                safe(x-1, y+1, distFromCell)
+              }
+            }
+            if ((x+1) <= 9 && y-1 >= 0) {
+              fullArea(x+1)(y-1).isVisible = true
+              if (fullArea(x+1)(y-1).count == 0 && !fullArea(x+1)(y-1).isVisible) {
+                safe(x+1, y-1, distFromCell)
+              }
+            }
+            if ((x+1) <= 9 && y+1 <= 9) {
+              fullArea(x+1)(y+1).isVisible = true
+              if (fullArea(x+1)(y+1).count == 0 && !fullArea(x+1)(y+1).isVisible) {
+                safe(x+1, y+1, distFromCell)
+              }
+            }
+
+          }
+
+        }
+      }
+    }
+  }
+
+  def uncover(uncvrx: Int, uncvry : Int): Unit ={
+    if (fullArea(uncvrx)(uncvry).isSafe == 0) {
+      safe(uncvrx, uncvry,0)
+    }
+    else {
+      while (fullArea(uncvrx)(uncvry).isSafe != 0) {
+        fullArea = createArray(rows, cols)
+        placeMines()
+      }
+      safe(uncvrx, uncvry,0)
+    }
+  }
+
   val rows: Int = 10
   val cols: Int = 10
   var nbmines : Int = 10
   var fullArea: Array[Array[Cell]] = createArray(rows, cols)
-  var i : Int = 0
+  var nbturn : Int =1
+  placeMines()
 
 
-
-
-
-
-  var z : Boolean = true
-  while (z) {
-    placeMines()
-    for (row <- fullArea) {
-      for (cell <- row) {
-        print(s"${cell.count}")
-      }
-      println()
-    }
-    println()
-    println()
-    for (row <- fullArea) {
-      for (cell <- row) {
-        print(s"${cell.isSafe}")
-      }
-      println()
+  while (true) {
+    for (i<-0 to 10){
+      println("\n")
     }
 
     for (row <- fullArea) {
       for (cell <- row) {
         if (cell.isVisible && cell.flag) {
-          print("\uF6A9")
+          print("🚩")
         }
         else if (!cell.isVisible) {
-          print("\u25A0")
-        } else {
+          print("⬛")
+        }
+        else {
           print(s"${cell.count}")
         }
-
       }
       println()
     }
-    println("Choose a cell x pos: ")
+    println("\nChoose a cell's x pos: ")
     val uncvrx = Input.readInt() - 1
 
-    println("Choose a cell y pos: ")
+    println("Choose a cell's y pos: ")
     val uncvry = Input.readInt() - 1
-
-    if (fullArea(uncvrx)(uncvry).isSafe == 0){
-      fullArea(uncvrx)(uncvry).isSafe = 1
-      println("yassss")
-      safe(uncvrx,uncvry)
-    }
-    else {
-      while (fullArea(uncvrx)(uncvry).isSafe != 0){
-        println("nooo")
-        fullArea = createArray(rows, cols)
-        placeMines()
-      }
-      fullArea(uncvrx)(uncvry).isSafe = 1
-      safe(uncvrx,uncvry)
-    }
 
     println("reveal or put flag? r/f")
     var flag: Char = Input.readChar()
-    if (flag == 'r') {
 
+    if (flag == 'r') {
       fullArea(uncvrx)(uncvry).isVisible = true
+
+      if (nbturn == 1 || fullArea(uncvrx)(uncvry).count == 0) {
+        uncover(uncvrx, uncvry)
+      }
+
     }
-    else {
+    else if (flag == 'f'){
       fullArea(uncvrx)(uncvry).isVisible = true
       fullArea(uncvrx)(uncvry).flag = true
     }
+    nbturn += 1
   }
 }
