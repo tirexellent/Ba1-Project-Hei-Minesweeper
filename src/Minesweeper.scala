@@ -113,6 +113,7 @@ object Minesweeper extends App {
       }
       safe(uncvrx, uncvry,0)
     }
+    nbturn += 1
   }
 
   def win(): Boolean = {
@@ -141,18 +142,42 @@ object Minesweeper extends App {
   var uncvry: Int = 0
   var flag: Char ='0'
   placeMines()
+  var posx: Int = 0
+  var posy: Int = 0
 
   val gamewindow = new FunGraphics(645, 645, "Ba1 Project, Minesweeper Se7en")
 
+
+  gamewindow.addMouseListener(new MouseAdapter() {
+
+    override def mouseClicked(e: MouseEvent): Unit = {
+      val event = e
+
+      // Get the mouse position from the event
+      posy = event.getX
+      posx = event.getY
+
+      println(s"Mouse position $posx - $posy")
+
+      if (posx >= 45 && posx <= 590 && posy >= 45 && posy <= 590) {
+        uncvrx = (posx - 45) / 55
+        uncvry = (posy - 45) / 55
+      }
+      println(s"Tile position $uncvrx - $uncvry")
+    }
+  })
 
   var game : Boolean = true
   while (game) {
     var i: Int = -1
     var j : Int = -1
+
+    println(s"Tile position $uncvrx - $uncvry")
     for (row <- fullArea) {
       i+=1
       for (cell <- row) {
         j+=1
+
         if (cell.flag) {
           gamewindow.setColor(Color.gray)
           gamewindow.drawFillRect(45 + 50 * j + 5 * j, 45 + 50 * i + i * 5, width = 50, height = 50)
@@ -172,30 +197,15 @@ object Minesweeper extends App {
     }
     i =0
     if (game) {
-      //println("\nChoose a cell's x pos: ")
-      //uncvrx = Input.readInt() - 1
-//
-      //println("Choose a cell's y pos: ")
-      //uncvry = Input.readInt() - 1
-//
-      //if (fullArea(uncvrx)(uncvry).flag){
-      //  println("remove flag? y/n")
-      //}
-      //else {
-      //  println("reveal or put flag? r/f")
-      //}
-      //flag = Input.readChar()
-      gamewindow.addMouseListener(new MouseAdapter() {
-        override def mouseClicked(e: MouseEvent): Unit = {
-          val event = e
 
-          // Get the mouse position from the event
-          val posx = event.getX
-          val posy = event.getY
+      if (fullArea(uncvrx)(uncvry).flag){
+        println("remove flag? y/n")
+      }
+      else {
+        println("reveal or put flag? r/f")
+      }
+      flag = Input.readChar()
 
-          println(s"Mouse position $posx - $posy")
-        }
-      })
     }
 
 
@@ -209,31 +219,20 @@ object Minesweeper extends App {
         println("You hit a mine! Game over!")
         game = false
       }
+
     }
+
     else if (flag == 'f'){
       fullArea(uncvrx)(uncvry).flag = true
     }
     else if (flag == 'y'){
       fullArea(uncvrx)(uncvry).flag = false
     }
-    nbturn += 1
+
     if (win()) {
       println("Congratulations! You won!")
       game = false
     }
-    gamewindow.syncGameLogic(1)
-    //for (row <- fullArea) {
-    //  for (cell <- row) {
-    //    print(s"${cell.count}")
-    //  }
-    //  println()
-    //}
-    //println()
-    //for (row <- fullArea) {
-    //  for (cell <- row) {
-    //    print(s"${cell.isSafe} ")
-    //  }
-    //  println()
-    //}
+    gamewindow.syncGameLogic(60)
   }
 }
