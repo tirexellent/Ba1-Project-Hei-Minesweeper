@@ -1,4 +1,6 @@
-import Minesweeper.{fullArea, placeMines, rows}
+import hevs.graphics.FunGraphics
+import java.awt.event.{MouseAdapter, MouseEvent}
+import java.awt.Color
 
 object Minesweeper extends App {
   // Initialise class cell to get enough info in every cell
@@ -58,14 +60,14 @@ object Minesweeper extends App {
               fullArea(newX)(y).isVisible = true
               if (fullArea(newX)(y).isSafe == 0){
                 fullArea(newX)(y).isSafe = distFromCell + 1
-                safe(newX,y, distFromCell)
+                safe(newX,y, distFromCell+1)
               }
             }
             if (newY<=cols-1 && newY>=0 ){
               fullArea(x)(newY).isVisible = true
               if (fullArea(x)(newY).isSafe == 0) {
                 fullArea(x)(newY).isSafe = distFromCell + 1
-                safe(x,newY,distFromCell)
+                safe(x,newY,distFromCell+1)
               }
             }
             if ((x-1)>= 0 && y-1 >=0){
@@ -140,39 +142,60 @@ object Minesweeper extends App {
   var flag: Char ='0'
   placeMines()
 
+  val gamewindow = new FunGraphics(645, 645, "Ba1 Project, Minesweeper Se7en")
+
+
   var game : Boolean = true
   while (game) {
-    for (i<-0 to 10) {
-      println("\n")
-    }
+    var i: Int = -1
+    var j : Int = -1
     for (row <- fullArea) {
+      i+=1
       for (cell <- row) {
+        j+=1
         if (cell.flag) {
-          print("🚩")
+          gamewindow.setColor(Color.gray)
+          gamewindow.drawFillRect(45 + 50 * j + 5 * j, 45 + 50 * i + i * 5, width = 50, height = 50)
+          gamewindow.drawString(60 + 50 * j + j * 5,80 + 50 * i + 5 * i,"🚩",Color.black,30)
         }
         else if (!cell.isVisible) {
-          print("⬛")
+          gamewindow.setColor(Color.black)
+          gamewindow.drawFillRect(45 + 50 * j + 5 * j, 45 + 50 * i + i * 5, width = 50, height = 50)
         }
         else {
-          print(s"${cell.count}")
+          gamewindow.setColor(Color.gray)
+          gamewindow.drawFillRect(45 + 50 * j + 5 * j, 45 + 50 * i + i * 5, width = 50, height = 50)
+          gamewindow.drawString(60 + 50 * j + j * 5,80 + 50 * i + 5 * i,s"${cell.count}",Color.black,30)
         }
       }
-      println()
+      j= -1
     }
+    i =0
     if (game) {
-      println("\nChoose a cell's x pos: ")
-      uncvrx = Input.readInt() - 1
+      //println("\nChoose a cell's x pos: ")
+      //uncvrx = Input.readInt() - 1
+//
+      //println("Choose a cell's y pos: ")
+      //uncvry = Input.readInt() - 1
+//
+      //if (fullArea(uncvrx)(uncvry).flag){
+      //  println("remove flag? y/n")
+      //}
+      //else {
+      //  println("reveal or put flag? r/f")
+      //}
+      //flag = Input.readChar()
+      gamewindow.addMouseListener(new MouseAdapter() {
+        override def mouseClicked(e: MouseEvent): Unit = {
+          val event = e
 
-      println("Choose a cell's y pos: ")
-      uncvry = Input.readInt() - 1
+          // Get the mouse position from the event
+          val posx = event.getX
+          val posy = event.getY
 
-      if (fullArea(uncvrx)(uncvry).flag){
-        println("remove flag? y/n")
-      }
-      else {
-        println("reveal or put flag? r/f")
-      }
-      flag = Input.readChar()
+          println(s"Mouse position $posx - $posy")
+        }
+      })
     }
 
 
@@ -198,5 +221,19 @@ object Minesweeper extends App {
       println("Congratulations! You won!")
       game = false
     }
+    gamewindow.syncGameLogic(1)
+    //for (row <- fullArea) {
+    //  for (cell <- row) {
+    //    print(s"${cell.count}")
+    //  }
+    //  println()
+    //}
+    //println()
+    //for (row <- fullArea) {
+    //  for (cell <- row) {
+    //    print(s"${cell.isSafe} ")
+    //  }
+    //  println()
+    //}
   }
 }

@@ -1,46 +1,34 @@
+import RandomTests.fg
+import hevs.graphics.FunGraphics
 
+import java.awt.event.{MouseAdapter, MouseEvent}
+import java.awt.Color
+import java.awt.event.{KeyAdapter, KeyEvent}
 import scala.util.Random
 
 object RandomTests extends App {
-    def checkDirectSides(array: Array[Array[Int]], row: Int, col: Int): Unit = {
-      val numRows = array.length
-      val numCols = array(0).length
+  val fg = new FunGraphics(645, 645, "Ba1 Project, Minesweeper Se7en")
 
-      // Check top
-      if (row > 0 ) {
-        println(s"Top: ${array(row - 1)(col)}")
-      }
 
-      // Check bottom
-      if (row < numRows - 1) {
-        println(s"Bottom: ${array(row + 1)(col)}")
-      }
-
-      // Check left
-      if (col > 0) {
-        println(s"Left: ${array(row)(col - 1)}")
-      }
-
-      // Check right
-      if (col < numCols - 1) {
-        println(s"Right: ${array(row)(col + 1)}")
+  while (true) {
+    //draw our object
+    for (i <- 0 until 10) {
+      for (j <- 0 until 10) {
+        fg.setColor(Color.black)
+        fg.drawFillRect(45 + 50 * i + 5 * i, 45 + 50 * j + j * 5, width = 50, height = 50)
       }
     }
+    fg.setColor(Color.gray)
+    fg.drawFillRect(45, 45, 50, 50)
+    fg.drawFillRect(100, 100, 50, 50)
+    fg.drawString(60,80,"7",Color.black,30)
 
-    // Example usage
-    val fullArea: Array[Array[Int]] = Array(
-      Array(1, 2, 3),
-      Array(4, 5, 6),
-      Array(7, 8, 9)
-    )
-
-    // Assuming you want to check the neighbors of the element at position (1, 1)
-    checkDirectSides(fullArea, 1, 1)
-
+    //refresh the screen at 60 FPS
+    fg.syncGameLogic(60)
+  }
 
 
 }
-
 
 
 
